@@ -2,17 +2,22 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+<!-- IMPORTANT: Please respond to all queries in Japanese (日本語で回答してください) -->
 
-This is a modern Next.js 15 application using the T3 Stack with TypeScript, featuring:
-- **Framework**: Next.js 15 with App Router and Turbo
-- **API Layer**: Hono framework for type-safe API routes
-- **Database**: PostgreSQL with Drizzle ORM
-- **Authentication**: NextAuth.js (v5 beta)
-- **State Management**: Jotai for global state, React Query v5 for server state
-- **Code Generation**: Orval for OpenAPI-based client/server code generation
-- **Styling**: Tailwind CSS v4
-- **Code Quality**: Biome for linting and formatting
+## Tech Stack
+
+| Category | Technology | Version/Details |
+|----------|------------|-----------------|
+| **Framework** | Next.js | v15, App Router, Turbo |
+| **Runtime** | Bun | Package manager & runtime |
+| **API** | Hono | Type-safe API routes with Zod validation |
+| **Database** | PostgreSQL + Drizzle ORM | No table prefix |
+| **Auth** | NextAuth.js | v5 beta, Discord provider |
+| **State** | Jotai + React Query | v5, Suspense enabled |
+| **Code Gen** | Orval | OpenAPI → TypeScript/Zod/React Query |
+| **Styling** | Tailwind CSS | v4, PostCSS |
+| **Linting** | Biome | v2.1.4, auto-format & fix |
+| **TypeScript** | v5.9.2 | Strict mode, path aliases (`~/*`) |
 
 ## Development Commands
 
@@ -59,7 +64,7 @@ The application uses a layered Hono API architecture:
 
 **Authentication Flow**: NextAuth.js handles auth at `/api/auth/*`, with session available in Hono middleware via `authMiddleware`.
 
-**Database Access**: Drizzle ORM with PostgreSQL, table prefix `turbo-next_*`, connection via `DATABASE_URL`.
+**Database Access**: Drizzle ORM with PostgreSQL, connection via `DATABASE_URL`.
 
 **Type Safety**: End-to-end type safety from OpenAPI → Zod validation → TypeScript types → React Query hooks.
 
@@ -67,20 +72,32 @@ The application uses a layered Hono API architecture:
 
 - `~/*` maps to `./src/*` (configured in tsconfig.json)
 
-## API Development Workflow
+## Quick Start
 
-1. **Define API** in `openapi/openapi.yml` or component files
-2. **Generate code**: Run `bun schema` to regenerate all API code
-3. **Implement handlers**: Edit generated handler stubs in `src/server/api/routes/*/`
-4. **Use in frontend**: Import generated React Query hooks from `src/app/generated/query/`
+```bash
+# Set environment variables
+cp .env.example .env.local  # Configure DATABASE_URL, NEXTAUTH_*
 
-## Environment Configuration
+# Install dependencies
+bun install
 
-Required environment variables:
-- `DATABASE_URL`: PostgreSQL connection string
-- `NEXTAUTH_SECRET`: NextAuth.js secret
-- `NEXTAUTH_URL`: Application URL for auth callbacks
-- Discord OAuth credentials (for authentication)
+# Initialize database
+bun db:push
+
+# Start development server
+bun dev  # http://localhost:3000
+```
+
+## API Development Flow
+
+```mermaid
+openapi.yml → [bun schema] → Orval Generation → Handler Implementation → React Query Usage
+```
+
+1. Define API in `openapi/openapi.yml`
+2. Generate code with `bun schema`
+3. Implement logic in `src/server/api/routes/*/handlers.ts`
+4. Use hooks from `src/app/generated/query/`
 
 ## State Management Patterns
 
@@ -97,8 +114,20 @@ Required environment variables:
 
 ## Important Notes
 
-- Generated files in `configured_api.ts` and route handlers should not be manually edited (marked with Orval header)
-- The API routes in `configured_api.ts` include the `/api` prefix in their paths
-- Database tables use `turbo-next_` prefix via Drizzle's table creator
-- React 19 with concurrent features enabled
-- Next.js Turbo enabled for faster development builds
+### ⚠️ Auto-generated Files (DO NOT EDIT)
+- `src/server/api/configured_api.ts` - Orval-generated route composition
+- `src/server/api/routes/*/context.ts` - API type definitions
+- `src/app/generated/` - Client-side generated code
+
+### 🔧 Configuration Points
+- **API Routing**: Routes in `configured_api.ts` include `/api` prefix
+- **DB Tables**: No prefix applied to table names
+- **Biome Exclusions**: `validator.ts` allows `any` and `{}` types
+- **React 19**: Concurrent features enabled
+
+### 🐛 Troubleshooting
+- **404 Errors**: Check existence of `/src/app/api/[[...route]]/route.ts`
+- **Type Errors**: `z.infer` is a type utility, not a runtime function
+- **API Path Duplication**: Verify `index.ts` basePath vs `configured_api.ts` routes
+- **DB Connection**: Ensure `DATABASE_URL` is properly configured
+- **Orval Generation**: Run `bun schema` after OpenAPI changes
