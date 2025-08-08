@@ -1,0 +1,94 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "description" : "turbo-next api definitions",
+    "title" : "API",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8082/"
+  } ],
+  "paths" : {
+    "/api/current-user" : {
+      "get" : {
+        "operationId" : "getCurrentUser",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/IdName"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "default" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CustomError"
+                }
+              }
+            },
+            "description" : "Unexpected Error"
+          }
+        },
+        "summary" : "ユーザー情報を取得",
+        "tags" : [ "current-user" ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "IdName" : {
+        "properties" : {
+          "id" : {
+            "description" : "ラベル",
+            "example" : "label_1",
+            "type" : "string"
+          },
+          "name" : {
+            "description" : "名前",
+            "example" : "name_1",
+            "type" : "string"
+          }
+        },
+        "required" : [ "id", "name" ],
+        "type" : "object"
+      },
+      "CustomError" : {
+        "properties" : {
+          "message" : {
+            "example" : "登録しました。",
+            "type" : "string"
+          },
+          "errors" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ErrorDetail"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "errors", "message" ],
+        "type" : "object"
+      },
+      "ErrorDetail" : {
+        "properties" : {
+          "key" : {
+            "description" : "エラーになったプロパティ",
+            "example" : "name",
+            "type" : "string"
+          },
+          "message" : {
+            "description" : "エラーメッセージ",
+            "example" : "入力値が不正です。",
+            "type" : "string"
+          }
+        },
+        "required" : [ "key", "message" ],
+        "type" : "object"
+      }
+    }
+  }
+}

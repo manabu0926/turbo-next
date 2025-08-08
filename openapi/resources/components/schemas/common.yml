@@ -1,0 +1,14 @@
+IdName:
+  type: object
+  required:
+    - id
+    - name
+  properties:
+    id:
+      type: string
+      description: ラベル
+      example: "label_1"
+    name:
+      type: string
+      description: 名前
+      example: "name_1"

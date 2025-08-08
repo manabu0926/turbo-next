@@ -1,0 +1,18 @@
+get:
+  tags:
+    - current-user
+  summary: ユーザー情報を取得
+  operationId: getCurrentUser
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/common.yml#/IdName"
+    default:
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses.yml#/CustomError"

@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: API
+  description: turbo-next api definitions
+  version: v1
+
+servers:
+  - url: "http://localhost:8082/"
+
+paths:
+  /api/current-user:
+    $ref: ./resources/paths/api/current-user.yml

@@ -1,0 +1,52 @@
+CurrentUser:
+  required:
+    - id
+    - name
+    - email
+    - avatarUrl
+  properties:
+    id:
+      type: string
+      description: ユーザーID
+      example: 1234567890
+    name:
+      type: string
+      description: スタッフ名
+      example: 山田
+    email:
+      type: string
+      description: メールアドレス
+      example: test@test.com
+    avatarUrl:
+      type: string
+      description: アバターURL
+      example: https://example.com/avatar.png
+UserSummary:
+  required:
+    - id
+    - name
+    - email
+    - avatarUrl
+    - createdAt
+  properties:
+    id:
+      type: string
+      description: ユーザーID
+      example: 1234567890
+    name:
+      type: string
+      description: スタッフ名
+      example: 山田
+    email:
+      type: string
+      description: メールアドレス
+      example: test@test.com
+    avatarUrl:
+      type: string
+      description: アバターURL
+      example: https://example.com/avatar.png
+    createdAt:
+      type: string
+      description: 作成日時
+      format: date-time
+      example: 2021-01-01T00:00:00Z

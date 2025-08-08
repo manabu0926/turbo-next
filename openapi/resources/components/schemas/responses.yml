@@ -1,0 +1,45 @@
+Ok:
+  type: object
+  required:
+    - message
+  properties:
+    message:
+      type: string
+      example: 登録しました。
+Created:
+  type: object
+  required:
+    - message
+  properties:
+    message:
+      type: string
+      example: 登録しました。
+CustomError:
+  type: object
+  required:
+    - message
+    - errors
+  properties:
+    message:
+      type: string
+      example: 登録しました。
+    errors:
+      type: array
+      items:
+        $ref: "#/components/schemas/ErrorDetail"
+components:
+  schemas:
+    ErrorDetail:
+      type: object
+      required:
+        - key
+        - message
+      properties:
+        key:
+          type: string
+          description: エラーになったプロパティ
+          example: name
+        message:
+          type: string
+          description: エラーメッセージ
+          example: 入力値が不正です。

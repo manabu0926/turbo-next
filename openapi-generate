@@ -1,0 +1,4 @@
+openapi-generator generate \
+  -i openapi/openapi.yml \
+  -g openapi \
+  -o ./openapi/generated
