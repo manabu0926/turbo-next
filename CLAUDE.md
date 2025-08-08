@@ -16,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | **State** | Jotai + React Query | v5, Suspense enabled |
 | **Code Gen** | Orval | OpenAPI → TypeScript/Zod/React Query |
 | **Styling** | Tailwind CSS | v4, PostCSS |
+| **UI Components** | shadcn/ui | Radix UI + Tailwind CSS |
 | **Linting** | Biome | v2.1.4, auto-format & fix |
 | **TypeScript** | v5.9.2 | Strict mode, path aliases (`~/*`) |
 
@@ -71,6 +72,8 @@ The application uses a layered Hono API architecture:
 ### Path Aliases
 
 - `~/*` maps to `./src/*` (configured in tsconfig.json)
+- `~/app/components/ui/*` - shadcn/ui components
+- `~/app/lib/utils` - Utility functions including cn()
 
 ## Quick Start
 
@@ -99,6 +102,28 @@ openapi.yml → [bun schema] → Orval Generation → Handler Implementation →
 3. Implement logic in `src/server/api/routes/*/handlers.ts`
 4. Use hooks from `src/app/generated/query/`
 
+## UI Components (shadcn/ui)
+
+### Component Management
+
+```bash
+# Add new components
+bunx shadcn@latest add [component-name]
+
+# Examples
+bunx shadcn@latest add button card dialog form input
+```
+
+### Component Location
+- Components are installed in `src/app/components/ui/`
+- Import using: `import { Button } from "~/app/components/ui/button"`
+- Utility functions: `import { cn } from "~/app/lib/utils"`
+
+### Theming
+- CSS variables defined in `src/styles/globals.css`
+- Light/Dark mode support via CSS classes
+- Customizable via Tailwind configuration
+
 ## State Management Patterns
 
 - **Server State**: React Query with Suspense enabled by default
@@ -118,6 +143,7 @@ openapi.yml → [bun schema] → Orval Generation → Handler Implementation →
 - `src/server/api/configured_api.ts` - Orval-generated route composition
 - `src/server/api/routes/*/context.ts` - API type definitions
 - `src/app/generated/` - Client-side generated code
+- `src/app/components/ui/*` - shadcn/ui components (modify with caution)
 
 ### 🔧 Configuration Points
 - **API Routing**: Routes in `configured_api.ts` include `/api` prefix
