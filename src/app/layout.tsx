@@ -1,7 +1,8 @@
-import "~/styles/globals.css";
+import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import { TooltipProvider } from "@/app/components/ui/tooltip";
 import { JotaiProvider } from "./providers/jotaiProvider";
 import { ReactQueryProvider } from "./providers/reactQueryProvider";
 
@@ -21,7 +22,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en" className={`${geist.variable}`}>
       <body>
         <JotaiProvider>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <ReactQueryProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </ReactQueryProvider>
         </JotaiProvider>
       </body>
     </html>

@@ -7,7 +7,7 @@
  */
 export type IdName = {
   /** ラベル */
-  id: string;
+  id: number;
   /** 名前 */
   name: string;
 };

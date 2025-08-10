@@ -1,5 +1,5 @@
 import { handle } from "hono/vercel";
-import app from "~/server/api";
+import app from "@/server/api";
 
 // Export HTTP methods for Next.js App Router
 export const GET = handle(app);

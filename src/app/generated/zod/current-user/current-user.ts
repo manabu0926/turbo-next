@@ -11,6 +11,6 @@ import { z as zod } from "zod";
  * @summary ユーザー情報を取得
  */
 export const getCurrentUserResponse = zod.object({
-  id: zod.string().describe("ラベル"),
+  id: zod.number().describe("ラベル"),
   name: zod.string().describe("名前"),
 });

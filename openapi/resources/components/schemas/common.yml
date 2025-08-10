@@ -5,9 +5,9 @@ IdName:
     - name
   properties:
     id:
-      type: string
+      type: number
       description: ラベル
-      example: "label_1"
+      example: 1
     name:
       type: string
       description: 名前

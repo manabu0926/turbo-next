@@ -1,12 +1,12 @@
 import { hc } from "hono/client";
-import type { ApiType } from "~/server/api";
+import type { ApiType } from "@/server/api";
 
 /**
  * Type-safe API client for Hono endpoints
  *
  * Usage example:
  * ```ts
- * import { api } from "~/lib/api-client";
+ * import { api } from "@/lib/api-client";
  *
  * // Get all users
  * const response = await api.users.$get();

@@ -16,7 +16,7 @@ Next.js 15 + Hono + Drizzle ORM + shadcn/ui を使用したモダンなフルス
 | **スタイリング** | Tailwind CSS | v4, PostCSS |
 | **UIコンポーネント** | shadcn/ui | Radix UI + Tailwind CSS |
 | **リンター** | Biome | v2.1.4, 自動フォーマット & 修正 |
-| **TypeScript** | v5.9.2 | 厳格モード, パスエイリアス (`~/*`) |
+| **TypeScript** | v5.9.2 | 厳格モード, パスエイリアス (`@/*`) |
 
 ## 📦 クイックスタート
 
@@ -103,8 +103,8 @@ bunx shadcn@latest add button card dialog form input
 - コンポーネントは `src/app/components/ui/` にインストールされます
 - インポート例: 
   ```tsx
-  import { Button } from "~/app/components/ui/button"
-  import { cn } from "~/app/lib/utils"
+  import { Button } from "@/app/components/ui/button"
+  import { cn } from "@/app/lib/utils"
   ```
 
 ### テーマ設定
@@ -142,9 +142,9 @@ src/
 
 ## 🔧 パスエイリアス
 
-- `~/*` → `./src/*` (tsconfig.jsonで設定)
-- `~/app/components/ui/*` → shadcn/uiコンポーネント
-- `~/app/lib/utils` → ユーティリティ関数（cn()を含む）
+- `@/*` → `./src/*` (tsconfig.jsonで設定)
+- `@/app/components/ui/*` → shadcn/uiコンポーネント
+- `@/app/lib/utils` → ユーティリティ関数（cn()を含む）
 
 ## 💾 状態管理パターン
 

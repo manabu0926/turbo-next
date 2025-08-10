@@ -1,5 +1,5 @@
 import type { Context, Next } from "hono";
-import { auth } from "~/server/auth";
+import { auth } from "@/server/auth";
 
 /**
  * Authentication middleware for Hono routes

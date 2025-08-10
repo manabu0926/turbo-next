@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | **Styling** | Tailwind CSS | v4, PostCSS |
 | **UI Components** | shadcn/ui | Radix UI + Tailwind CSS |
 | **Linting** | Biome | v2.1.4, auto-format & fix |
-| **TypeScript** | v5.9.2 | Strict mode, path aliases (`~/*`) |
+| **TypeScript** | v5.9.2 | Strict mode, path aliases (`@/*`) |
 
 ## Development Commands
 
@@ -71,9 +71,9 @@ The application uses a layered Hono API architecture:
 
 ### Path Aliases
 
-- `~/*` maps to `./src/*` (configured in tsconfig.json)
-- `~/app/components/ui/*` - shadcn/ui components
-- `~/app/lib/utils` - Utility functions including cn()
+- `@/*` maps to `./src/*` (configured in tsconfig.json)
+- `@/app/components/ui/*` - shadcn/ui components
+- `@/app/lib/utils` - Utility functions including cn()
 
 ## Quick Start
 
@@ -116,8 +116,8 @@ bunx shadcn@latest add button card dialog form input
 
 ### Component Location
 - Components are installed in `src/app/components/ui/`
-- Import using: `import { Button } from "~/app/components/ui/button"`
-- Utility functions: `import { cn } from "~/app/lib/utils"`
+- Import using: `import { Button } from "@/app/components/ui/button"`
+- Utility functions: `import { cn } from "@/app/lib/utils"`
 
 ### Theming
 - CSS variables defined in `src/styles/globals.css`

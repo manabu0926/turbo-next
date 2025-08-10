@@ -45,8 +45,8 @@
         "properties" : {
           "id" : {
             "description" : "ラベル",
-            "example" : "label_1",
-            "type" : "string"
+            "example" : 1,
+            "type" : "number"
           },
           "name" : {
             "description" : "名前",
