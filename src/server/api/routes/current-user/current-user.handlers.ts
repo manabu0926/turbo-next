@@ -9,7 +9,7 @@ export const getCurrentUserHandlers = factory.createHandlers(
   zValidator("response", getCurrentUserResponse),
   async (c: GetCurrentUserContext) => {
     const user: z.infer<typeof getCurrentUserResponse> = {
-      id: "123",
+      id: 123,
       name: "John Doe",
     };
     return c.json(user);

@@ -37,7 +37,7 @@ export default defineConfig({
       override: {
         useTypeOverInterfaces: true,
         hono: {
-          compositeRoute: "./src/server/api/configured_api.ts",
+          compositeRoute: "./src/server/api/configuredApi.ts",
           validatorOutputPath: "./src/server/api/routes/validator.ts",
         },
       },

@@ -10,6 +10,6 @@ import { getCurrentUserHandlers } from "./routes/current-user/current-user.handl
 
 const app = new Hono();
 
-app.get("/api/current_user", ...getCurrentUserHandlers);
+app.get("/api/current-user", ...getCurrentUserHandlers);
 
 export default app;
