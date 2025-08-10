@@ -17,6 +17,7 @@ type Props<T extends string = string> = {
   options: SimpleSelectOption<T>[];
   onValueChange: (value: T) => void;
   className?: string;
+  fullWidth?: boolean;
   value?: T;
   placeholder?: string;
   defaultValue?: T;
@@ -26,6 +27,7 @@ export const SimpleSelect = <T extends string = string>({
   options,
   onValueChange,
   className,
+  fullWidth = false,
   value,
   placeholder,
   defaultValue,
@@ -36,7 +38,9 @@ export const SimpleSelect = <T extends string = string>({
       onValueChange={(newValue) => onValueChange(newValue as T)}
       defaultValue={defaultValue}
     >
-      <SelectTrigger className={className}>
+      <SelectTrigger
+        className={`${fullWidth ? "w-full" : ""} ${className ?? ""}`}
+      >
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

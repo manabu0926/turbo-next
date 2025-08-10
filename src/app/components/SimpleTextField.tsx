@@ -3,6 +3,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import { type ReactElement, type ReactNode, useEffect, useState } from "react";
 import { Input } from "@/app/components/ui/input";
+import { cn } from "@/app/lib/utils";
 import { FormWithLabel } from "./FormWithLabel";
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
   type?: string;
   disabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
   showPasswordToggle?: boolean;
   autoComplete?: string;
   startIcon?: ReactNode;
@@ -38,6 +40,7 @@ export const SimpleTextField = ({
   type = "text",
   disabled = false,
   className,
+  fullWidth = false,
   showPasswordToggle = false,
   autoComplete,
   startIcon,
@@ -84,7 +87,13 @@ export const SimpleTextField = ({
             placeholder={placeholder}
             disabled={disabled}
             autoComplete={autoComplete}
-            className={`h-9 text-xs ${hasLeftIcon ? "pl-8" : ""} ${hasRightIcon ? "pr-10" : ""} ${className ?? ""}`}
+            className={cn(
+              "h-9 text-xs",
+              hasLeftIcon && "pl-8",
+              hasRightIcon && "pr-10",
+              fullWidth && "w-full",
+              className,
+            )}
             onChange={(e) => {
               const newValue = e.target.value;
               setInputValue(newValue); // 常に内部stateを更新（画面表示）

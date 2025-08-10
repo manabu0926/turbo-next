@@ -36,6 +36,7 @@ type Props<T extends FieldValues> = {
   isNumber?: boolean;
   disabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
   onValueChange?: (value: string) => void;
 };
 
@@ -50,6 +51,7 @@ export const ZodSelect = <T extends FieldValues>({
   isNumber = false,
   disabled = false,
   className,
+  fullWidth = false,
   onValueChange,
 }: Props<T>): ReactElement => {
   // useControllerを使ってフォーム状態を管理
@@ -77,13 +79,15 @@ export const ZodSelect = <T extends FieldValues>({
           }}
           disabled={disabled}
         >
-          <SelectTrigger className={className}>
+          <SelectTrigger
+            className={`${fullWidth ? "w-full" : ""} ${className ?? ""}`}
+          >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
             {options.map((option) => {
               const itemContent = (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center">
                   {option.icon && <span>{option.icon}</span>}
                   <span>{option.label}</span>
                 </div>

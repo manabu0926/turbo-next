@@ -9,6 +9,7 @@ import {
   useController,
 } from "react-hook-form";
 import { Input } from "@/app/components/ui/input";
+import { cn } from "@/app/lib/utils";
 import { FormWithLabel } from "./FormWithLabel";
 
 type Props<T extends FieldValues> = {
@@ -22,6 +23,7 @@ type Props<T extends FieldValues> = {
   type?: string;
   disabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
   showPasswordToggle?: boolean;
   autoComplete?: string;
   startIcon?: ReactNode;
@@ -43,6 +45,7 @@ export const ZodTextField = <T extends FieldValues>({
   type = "text",
   disabled = false,
   className,
+  fullWidth = false,
   showPasswordToggle = false,
   autoComplete,
   startIcon,
@@ -97,7 +100,12 @@ export const ZodTextField = <T extends FieldValues>({
             placeholder={placeholder}
             disabled={disabled}
             autoComplete={autoComplete}
-            className={`${hasLeftIcon ? "pl-10" : ""} ${hasRightIcon ? "pr-10" : ""} ${className ?? ""}`}
+            className={cn(
+              hasLeftIcon && "pl-10",
+              hasRightIcon && "pr-10",
+              fullWidth && "w-full",
+              className,
+            )}
             onChange={(e) => {
               const newValue = e.target.value;
               _setInputValue(newValue); // 常に内部stateを更新（画面表示）

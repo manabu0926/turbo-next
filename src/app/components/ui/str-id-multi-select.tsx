@@ -1,8 +1,7 @@
 "use client";
 
-import { X } from "lucide-react";
 import { useState } from "react";
-import { Input } from "@/app/components/ui/input";
+import { DismissibleBadge } from "@/app/components/ui/badge";
 import { cn } from "@/app/lib/utils";
 
 export type TIdName<T> = { id: T; name: string };
@@ -13,6 +12,7 @@ type MultiSelectProps<T> = {
   onChange: (selected: T[]) => void;
   placeholder?: string;
   className?: string;
+  fullWidth?: boolean;
 };
 
 export const StrIdMultiSelect = <T,>({
@@ -21,6 +21,7 @@ export const StrIdMultiSelect = <T,>({
   onChange,
   placeholder = "選択してください...",
   className,
+  fullWidth = true,
 }: MultiSelectProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -46,16 +47,26 @@ export const StrIdMultiSelect = <T,>({
   };
 
   return (
-    <div className={cn("relative flex flex-col gap-2", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-2",
+        fullWidth ? "w-full" : "inline-flex",
+        className,
+      )}
+    >
       {/* 検索入力 */}
       <div className="relative">
-        <Input
+        <input
           type="text"
           placeholder={placeholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => setIsOpen(true)}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className={cn(
+            "flex h-9 rounded-lg border border-input bg-transparent px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[1px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
+            fullWidth ? "w-full" : "w-64",
+          )}
         />
 
         {/* ドロップダウンリスト */}
@@ -71,7 +82,7 @@ export const StrIdMultiSelect = <T,>({
                   key={`${option.id}`}
                   type="button"
                   className={cn(
-                    "w-full px-3 py-2 text-left text-popover-foreground text-sm hover:bg-blue-100 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none",
+                    "w-full px-3 py-2 text-left text-popover-foreground text-sm hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none dark:focus:bg-accent/50 dark:hover:bg-accent/50",
                     selected.some((item) => item === option.id) &&
                       "bg-primary/10 text-primary",
                   )}
@@ -93,23 +104,16 @@ export const StrIdMultiSelect = <T,>({
       {/* 選択済みのアイテム表示 */}
       {selectedOptions.length > 0 && (
         <div className="flex flex-wrap gap-1">
-          {selectedOptions.map((item) => {
-            return (
-              <span
-                key={`${item.id}`}
-                className="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs dark:bg-blue-900/50 dark:text-blue-200"
-              >
-                {item.name}
-                <button
-                  type="button"
-                  onClick={() => handleRemove(item)}
-                  className="rounded hover:bg-blue-200 dark:hover:bg-blue-800/50"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </span>
-            );
-          })}
+          {selectedOptions.map((item) => (
+            <DismissibleBadge
+              key={`${item.id}`}
+              variant="outline"
+              color="primary"
+              onDismiss={() => handleRemove(item)}
+            >
+              {item.name}
+            </DismissibleBadge>
+          ))}
         </div>
       )}
     </div>

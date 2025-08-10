@@ -2,12 +2,14 @@
 
 import type { FC } from "react";
 import { Badge } from "@/app/components/ui/badge";
+import { cn } from "@/app/lib/utils";
 
 type Props = {
   children: React.ReactNode;
   label: string;
   required?: boolean;
   removeLabel?: boolean;
+  orientation?: "horizontal" | "vertical";
 };
 
 export const FormWithLabel: FC<Props> = ({
@@ -15,15 +17,26 @@ export const FormWithLabel: FC<Props> = ({
   required = false,
   removeLabel = false,
   children,
+  orientation = "vertical",
 }) => {
   return (
-    <div className="flex w-full flex-col gap-1">
+    <div
+      className={cn(
+        "flex",
+        orientation === "horizontal"
+          ? "flex-shrink-0 flex-row gap-2"
+          : "flex-col gap-1",
+      )}
+    >
       {!removeLabel && (
         <div className="flex items-center gap-2">
-          <span className="font-medium text-foreground text-xs">{label}</span>
+          <span className="font-medium text-foreground text-gray-600 text-sm">
+            {label}
+          </span>
           {required && (
             <Badge
-              variant="destructive"
+              variant="solid"
+              color="destructive"
               className="h-5 px-2 text-white text-xs"
             >
               必須

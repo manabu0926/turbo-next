@@ -1,89 +1,123 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@theme {
-	--font-sans:
-		var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+	/* shadcn/ui用の色変数をTailwindテーマに接続 */
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-success: var(--success);
+	--color-success-foreground: var(--success-foreground);
+	--color-warning: var(--warning);
+	--color-warning-foreground: var(--warning-foreground);
+	--color-error: var(--error);
+	--color-error-foreground: var(--error-foreground);
+	--color-info: var(--info);
+	--color-info-foreground: var(--info-foreground);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+
+	/* 半径 */
+	--radius-lg: var(--radius);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-sm: calc(var(--radius) - 4px);
 }
 
-@layer base {
-	:root {
-		--background: 0 0% 100%;
-		--foreground: 222.2 84% 4.9%;
-		--card: 0 0% 100%;
-		--card-foreground: 222.2 84% 4.9%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 222.2 84% 4.9%;
-		--primary: 199 89% 48%; /* #0284c7 */
-		--primary-foreground: 0 0% 100%;
-		--secondary: 199 89% 92%; /* プライマリの薄い色 */
-		--secondary-foreground: 199 89% 25%;
-		--muted: 210 40% 96.1%;
-		--muted-foreground: 215.4 16.3% 46.9%;
-		--accent: 199 89% 92%;
-		--accent-foreground: 199 89% 25%;
-		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 210 40% 98%;
-		/* セマンティックカラー */
-		--success: 158 84% 39%; /* #10b981 */
-		--success-foreground: 0 0% 100%;
-		--warning: 38 92% 50%; /* #f59e0b */
-		--warning-foreground: 0 0% 100%;
-		--error: 0 84% 60%; /* #ef4444 */
-		--error-foreground: 0 0% 100%;
-		--info: 199 89% 48%; /* #0284c7 (プライマリと同じ) */
-		--info-foreground: 0 0% 100%;
-		--border: 214.3 31.8% 91.4%;
-		--input: 214.3 31.8% 91.4%;
-		--ring: 199 89% 48%;
-		--radius: 0.5rem;
-		--chart-1: 199 89% 48%; /* プライマリブルー */
-		--chart-2: 158 84% 39%; /* 成功グリーン */
-		--chart-3: 38 92% 50%; /* 警告オレンジ */
-		--chart-4: 0 84% 60%; /* エラーレッド */
-		--chart-5: 270 60% 60%; /* パープル */
-	}
+:root {
+	--radius: 0.75rem; /* 12px - より丸みを持たせた */
+	--background: hsl(0 0% 100%);
+	--foreground: hsl(222.2 84% 4.9%);
+	--card: hsl(0 0% 100%);
+	--card-foreground: hsl(222.2 84% 4.9%);
+	--popover: hsl(0 0% 100%);
+	--popover-foreground: hsl(222.2 84% 4.9%);
+	--primary: hsl(217 91% 54%); /* #2563eb */
+	--primary-foreground: hsl(0 0% 100%);
+	--secondary: hsl(217 91% 92%); /* プライマリの薄い色 */
+	--secondary-foreground: hsl(217 91% 25%);
+	--muted: hsl(210 40% 90%);
+	--muted-foreground: hsl(215.4 16.3% 35%);
+	--accent: hsl(217 91% 92%);
+	--accent-foreground: hsl(217 91% 25%);
+	--destructive: hsl(0 84.2% 60.2%);
+	--destructive-foreground: hsl(210 40% 98%);
+	--success: hsl(158 84% 39%);
+	--success-foreground: hsl(0 0% 100%);
+	--warning: hsl(38 92% 50%);
+	--warning-foreground: hsl(0 0% 100%);
+	--error: hsl(0 84% 60%);
+	--error-foreground: hsl(0 0% 100%);
+	--info: hsl(217 91% 54%); /* #2563eb (プライマリと同じ) */
+	--info-foreground: hsl(0 0% 100%);
+	--border: hsl(214.3 31.8% 80%);
+	--input: hsl(214.3 31.8% 80%);
+	--ring: hsl(217 91% 54%);
+	--chart-1: hsl(217 91% 54%); /* プライマリブルー */
+	--chart-2: hsl(158 84% 39%);
+	--chart-3: hsl(38 92% 50%);
+	--chart-4: hsl(0 84% 60%);
+	--chart-5: hsl(270 60% 60%);
+}
 
-	.dark {
-		--background: 222.2 84% 4.9%;
-		--foreground: 210 40% 98%;
-		--card: 222.2 84% 4.9%;
-		--card-foreground: 210 40% 98%;
-		--popover: 222.2 84% 4.9%;
-		--popover-foreground: 210 40% 98%;
-		--primary: 199 89% 58%; /* 明度を上げて調整 */
-		--primary-foreground: 222.2 84% 4.9%;
-		--secondary: 199 30% 17%; /* プライマリの暗い色 */
-		--secondary-foreground: 210 40% 98%;
-		--muted: 217.2 32.6% 17.5%;
-		--muted-foreground: 215 20.2% 65.1%;
-		--accent: 199 30% 25%;
-		--accent-foreground: 210 40% 98%;
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 210 40% 98%;
-		/* セマンティックカラー */
-		--success: 158 74% 49%; /* 明度を上げて調整 */
-		--success-foreground: 0 0% 0%;
-		--warning: 38 92% 60%; /* 明度を上げて調整 */
-		--warning-foreground: 0 0% 0%;
-		--error: 0 74% 65%; /* 明度を上げて調整 */
-		--error-foreground: 0 0% 100%;
-		--info: 199 89% 58%; /* プライマリと同じ */
-		--info-foreground: 222.2 84% 4.9%;
-		--border: 217.2 32.6% 17.5%;
-		--input: 217.2 32.6% 17.5%;
-		--ring: 199 89% 58%;
-		--chart-1: 199 89% 48%; /* プライマリブルー */
-		--chart-2: 158 84% 39%; /* 成功グリーン */
-		--chart-3: 38 92% 50%; /* 警告オレンジ */
-		--chart-4: 0 84% 60%; /* エラーレッド */
-		--chart-5: 270 60% 60%; /* パープル */
-	}
+.dark {
+	--background: hsl(240 10% 3.9%); /* より中立的な暗い背景 */
+	--foreground: hsl(0 0% 95%); /* 少し明るめの白 */
+	--card: hsl(240 10% 5%); /* カード背景を少し明るく */
+	--card-foreground: hsl(0 0% 95%);
+	--popover: hsl(240 10% 5%);
+	--popover-foreground: hsl(0 0% 95%);
+	--primary: hsl(217 91% 65%); /* より明るいプライマリ */
+	--primary-foreground: hsl(0 0% 100%);
+	--secondary: hsl(240 5% 15%); /* より中立的なグレー */
+	--secondary-foreground: hsl(0 0% 95%);
+	--muted: hsl(240 5% 20%); /* 少し明るめのミュート */
+	--muted-foreground: hsl(240 5% 65%);
+	--accent: hsl(240 5% 25%); /* ホバー時に使用される色を明るく */
+	--accent-foreground: hsl(0 0% 95%);
+	--destructive: hsl(0 85% 60%); /* より明るい赤 */
+	--destructive-foreground: hsl(0 0% 98%);
+	--success: hsl(158 65% 45%); /* 少し落ち着いた緑 */
+	--success-foreground: hsl(0 0% 100%);
+	--warning: hsl(38 95% 55%); /* 見やすいオレンジ */
+	--warning-foreground: hsl(0 0% 0%);
+	--error: hsl(0 85% 60%); /* より明るい赤 */
+	--error-foreground: hsl(0 0% 100%);
+	--info: hsl(217 91% 65%); /* プライマリと同じ */
+	--info-foreground: hsl(0 0% 100%);
+	--border: hsl(240 5% 20%); /* より中立的なボーダー */
+	--input: hsl(240 5% 20%);
+	--ring: hsl(217 91% 65%);
+	--chart-1: hsl(217 91% 65%); /* プライマリブルー */
+	--chart-2: hsl(158 65% 45%);
+	--chart-3: hsl(38 95% 55%);
+	--chart-4: hsl(0 85% 60%);
+	--chart-5: hsl(270 60% 65%);
 }
 
 @layer base {
 	* {
-		@apply border-border;
+		@apply border-border outline-ring/50;
 	}
 	body {
 		@apply bg-background text-foreground;

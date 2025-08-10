@@ -8,6 +8,7 @@ import {
   useController,
 } from "react-hook-form";
 import { Textarea } from "@/app/components/ui/textarea";
+import { cn } from "@/app/lib/utils";
 import { FormWithLabel } from "./FormWithLabel";
 
 type Props<T extends FieldValues> = {
@@ -21,6 +22,7 @@ type Props<T extends FieldValues> = {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  fullWidth?: boolean;
   removeLabel?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 };
@@ -36,6 +38,7 @@ export const ZodTextArea = <T extends FieldValues>({
   placeholder,
   disabled = false,
   className,
+  fullWidth = false,
   removeLabel = false,
   onKeyDown,
 }: Props<T>): ReactElement => {
@@ -53,13 +56,19 @@ export const ZodTextArea = <T extends FieldValues>({
   return (
     <FormWithLabel label={label} required={required} removeLabel={removeLabel}>
       <div className="flex flex-col gap-1">
-        <Textarea
-          {...field}
-          placeholder={placeholder}
-          disabled={disabled}
-          className={`min-h-[${minRows * 24}px] ${className ?? ""}`}
-          onKeyDown={onKeyDown}
-        />
+        <div className={fullWidth ? "w-full" : "inline-block"}>
+          <Textarea
+            {...field}
+            placeholder={placeholder}
+            disabled={disabled}
+            className={cn(
+              `min-h-[${minRows * 24}px]`,
+              fullWidth && "w-full",
+              className,
+            )}
+            onKeyDown={onKeyDown}
+          />
+        </div>
         {showCharCount && (
           <p
             className={`text-right text-xs ${

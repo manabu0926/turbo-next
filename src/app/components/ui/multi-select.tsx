@@ -1,116 +1,149 @@
 "use client";
 
-import { X } from "lucide-react";
-import { useState } from "react";
-import { Input } from "@/app/components/ui/input";
-import type { IdName } from "@/app/generated/query/api.schemas";
+import { Check, ChevronDown } from "lucide-react";
+import * as React from "react";
+
+import { DismissibleBadge } from "@/app/components/ui/badge";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/app/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/app/components/ui/popover";
 import { cn } from "@/app/lib/utils";
 
-type MultiSelectProps = {
-  options: IdName[];
-  selected: number[];
-  onChange: (selected: number[]) => void;
+export interface Option {
+  value: string | number;
+  label: string;
+}
+
+interface MultiSelectProps {
+  options: Option[];
+  selected: (string | number)[];
+  onChange: (values: (string | number)[]) => void;
   placeholder?: string;
   className?: string;
-};
+  disabled?: boolean;
+  fullWidth?: boolean;
+  searchPlaceholder?: string;
+  emptyMessage?: string;
+}
 
-export const MultiSelect = ({
+export function MultiSelectNew({
   options,
   selected,
   onChange,
   placeholder = "選択してください...",
   className,
-}: MultiSelectProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  disabled = false,
+  fullWidth = false,
+  searchPlaceholder = "検索...",
+  emptyMessage = "該当する項目がありません",
+}: MultiSelectProps) {
+  const [open, setOpen] = React.useState(false);
 
-  const selectedOptions = selected.flatMap((selectedId) =>
-    options.filter((option) => option.id === selectedId),
-  );
-  const filteredOptions = options.filter((option) =>
-    option.name.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const handleSelect = (option: IdName) => {
-    const isSelected = selected.some((item) => item === option.id);
-    if (isSelected) {
-      onChange(selected.filter((item) => item !== option.id));
-    } else {
-      onChange([...selected, option.id]);
+  const handleSelect = (label: string) => {
+    const option = options.find(
+      (opt) => opt.label.toLowerCase() === label.toLowerCase(),
+    );
+    if (option) {
+      const newSelected = selected.includes(option.value)
+        ? selected.filter((item) => item !== option.value)
+        : [...selected, option.value];
+      onChange(newSelected);
     }
   };
 
-  const handleRemove = (option: IdName) => {
-    onChange(selected.filter((item) => item !== option.id));
+  const handleRemove = (value: string | number) => {
+    onChange(selected.filter((item) => item !== value));
   };
 
+  const selectedOptions = React.useMemo(
+    () => options.filter((option) => selected.includes(option.value)),
+    [options, selected],
+  );
+
   return (
-    <div className={cn("relative flex flex-col gap-2", className)}>
-      {/* 検索入力 */}
-      <div className="relative">
-        <Input
-          type="text"
-          placeholder={placeholder}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onFocus={() => setIsOpen(true)}
-          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-        />
-
-        {/* ドロップダウンリスト */}
-        {isOpen && (
-          <div className="absolute top-full z-50 max-h-60 w-full overflow-auto rounded-md border bg-popover shadow-lg">
-            {filteredOptions.length === 0 ? (
-              <div className="px-3 py-2 text-muted-foreground text-sm">
-                該当する項目がありません
-              </div>
-            ) : (
-              filteredOptions.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  className={cn(
-                    "w-full px-3 py-2 text-left text-popover-foreground text-sm hover:bg-blue-100 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none",
-                    selected.some((item) => item === option.id) &&
-                      "bg-primary/10 text-primary",
-                  )}
-                  onClick={() => handleSelect(option)}
-                >
-                  <span className="flex items-center justify-between">
-                    {option.name}
-                    {selected.some((item) => item === option.id) && (
-                      <span className="text-primary">✓</span>
-                    )}
-                  </span>
-                </button>
-              ))
+    <div className={cn("space-y-2", className)}>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            role="combobox"
+            aria-expanded={open}
+            className={cn(
+              "flex items-center justify-between gap-2 whitespace-nowrap rounded-lg border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] disabled:cursor-not-allowed disabled:opacity-50",
+              "h-9",
+              "data-[state=open]:border-ring data-[state=open]:ring-[1px] data-[state=open]:ring-ring/50",
+              "dark:bg-input/30 dark:hover:bg-input/50",
+              fullWidth ? "w-full" : "w-fit min-w-[200px]",
+              !selected.length && "text-muted-foreground",
             )}
-          </div>
-        )}
-      </div>
+            data-state={open ? "open" : "closed"}
+            data-placeholder={!selected.length ? "true" : undefined}
+            disabled={disabled}
+          >
+            <span className="truncate flex-1 text-left">
+              {selected.length > 0 ? `${selected.length}件選択中` : placeholder}
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+          align="start"
+          sideOffset={0}
+        >
+          <Command>
+            <CommandInput placeholder={searchPlaceholder} />
+            <CommandList>
+              <CommandEmpty>{emptyMessage}</CommandEmpty>
+              <CommandGroup>
+                {options.map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.label}
+                    onSelect={handleSelect}
+                    className="flex items-center justify-between"
+                  >
+                    {option.label}
+                    <Check
+                      className={cn(
+                        "h-4 w-4",
+                        selected.includes(option.value)
+                          ? "opacity-100"
+                          : "opacity-0",
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
 
-      {/* 選択済みのアイテム表示 */}
       {selectedOptions.length > 0 && (
         <div className="flex flex-wrap gap-1">
-          {selectedOptions.map((item) => {
-            return (
-              <span
-                key={item.id}
-                className="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-blue-800 text-xs dark:bg-blue-900/50 dark:text-blue-200"
-              >
-                {item.name}
-                <button
-                  type="button"
-                  onClick={() => handleRemove(item)}
-                  className="rounded hover:bg-blue-200 dark:hover:bg-blue-800/50"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </span>
-            );
-          })}
+          {selectedOptions.map((option) => (
+            <DismissibleBadge
+              key={option.value}
+              variant="outline"
+              color="primary"
+              onDismiss={() => handleRemove(option.value)}
+            >
+              {option.label}
+            </DismissibleBadge>
+          ))}
         </div>
       )}
     </div>
   );
-};
+}
