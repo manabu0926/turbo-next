@@ -3,12 +3,12 @@ import { defineConfig } from "orval";
 export default defineConfig({
   frontend: {
     input: {
-      target: "./openapi/generated/openapi.json",
+      target: "./src/openapi/generated/openapi.json",
     },
     output: {
       biome: true,
       mode: "tags-split",
-      target: "./src/app/generated/query/",
+      target: "./src/app/_generated/query/",
       clean: true,
       client: "react-query",
       httpClient: "axios",
@@ -27,7 +27,7 @@ export default defineConfig({
   },
   server: {
     input: {
-      target: "./openapi/generated/openapi.json",
+      target: "./src/openapi/generated/openapi.json",
     },
     output: {
       biome: true,
@@ -50,12 +50,12 @@ export default defineConfig({
   },
   zod: {
     input: {
-      target: "./openapi/generated/openapi.json",
+      target: "./src/openapi/generated/openapi.json",
     },
     output: {
       biome: true,
       mode: "tags-split",
-      target: "./src/app/generated/zod",
+      target: "./src/app/_generated/zod",
       client: "zod",
       clean: true,
     },

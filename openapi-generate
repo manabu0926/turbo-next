@@ -1,4 +1,4 @@
 openapi-generator generate \
-  -i openapi/openapi.yml \
+  -i src/openapi/routes.yml \
   -g openapi \
-  -o ./openapi/generated
+  -o ./src/openapi/generated/

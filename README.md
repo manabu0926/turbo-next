@@ -69,7 +69,7 @@ bun schema           # OpenAPI仕様を生成し、Orval経由でAPIコードを
 
 アプリケーションは階層化されたHono APIアーキテクチャを使用：
 
-1. **OpenAPI定義** (`openapi/openapi.yml`): API契約の信頼できる情報源
+1. **OpenAPI定義** (`src/openapi/openapi.yml`): API契約の信頼できる情報源
 2. **Orvalによるコード生成**:
    - サーバールート: `src/server/api/routes/`
    - クライアントクエリ: `src/app/generated/query/`
@@ -103,13 +103,13 @@ bunx shadcn@latest add button card dialog form input
 - コンポーネントは `src/app/components/ui/` にインストールされます
 - インポート例: 
   ```tsx
-  import { Button } from "@/app/components/ui/button"
-  import { cn } from "@/app/lib/utils"
+  import { Button } from "@/app/_components/ui/button"
+  import { cn } from "@/app/_lib/utils"
   ```
 
 ### テーマ設定
 
-- CSS変数は `src/styles/globals.css` で定義
+- CSS変数は `src/app/_styles/globals.css` で定義
 - CSSクラスによるライト/ダークモードサポート
 - Tailwind設定でカスタマイズ可能
 
@@ -119,7 +119,7 @@ bunx shadcn@latest add button card dialog form input
 openapi.yml → [bun schema] → Orval生成 → ハンドラー実装 → React Query使用
 ```
 
-1. `openapi/openapi.yml` でAPIを定義
+1. `src/openapi/openapi.yml` でAPIを定義
 2. `bun schema` でコードを生成
 3. `src/server/api/routes/*/handlers.ts` でロジックを実装
 4. `src/app/generated/query/` からフックを使用
@@ -143,8 +143,8 @@ src/
 ## 🔧 パスエイリアス
 
 - `@/*` → `./src/*` (tsconfig.jsonで設定)
-- `@/app/components/ui/*` → shadcn/uiコンポーネント
-- `@/app/lib/utils` → ユーティリティ関数（cn()を含む）
+- `@/app/_components/ui/*` → shadcn/uiコンポーネント
+- `@/app/_lib/utils` → ユーティリティ関数（cn()を含む）
 
 ## 💾 状態管理パターン
 
